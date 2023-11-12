@@ -62,7 +62,6 @@ def enviar_email(email_destino, assunto, corpo_email):
 def main():
     caminho_planilha = '.\\clientes.xlsx'
 
-    # Manipular a planilha
     manipular_planilha(caminho_planilha)
 
 #Sem o index ocorre erro, não o mude por nada.
@@ -78,10 +77,9 @@ for index, client in clients.iterrows(): #Linhas iteraveis. Percorre cada linha 
 
 # Aqui acontece uma tentativa de se conectar ao servidor
 try:
-   server = smtplib.SMTP('smtp.gmail.com', port=587) #Servidor de envio da mensagem
+   server = smtplib.SMTP('smtp.gmail.com', port=587) # Servidor de envio da mensagem
    server.starttls() #Dando start no servidor
-   
-   #Comando para fazer login. 
+
    #!!!MUITO IMPORTATE, É SUA CONTA DE EMAIL E SUA SENHA DE APP!!!
    server.login('seu_email@gmail.com', 'sua_senha')
    
