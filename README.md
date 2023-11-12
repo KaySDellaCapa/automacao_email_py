@@ -20,7 +20,7 @@ Pode servir para:
 
 * Software bom para criar planilhas com nomes de empresas e mandar curriculo; para pegar clientes e mandar propostas ou promoções. Enfim, bom para muita coisa
 
-  -------------------------
+-------------------------
   
 Algumas de suas funcionalidades:
 
