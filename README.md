@@ -20,5 +20,12 @@ Pode servir para:
 
 * Software bom para criar planilhas com nomes de empresas e mandar curriculo; para pegar clientes e mandar propostas ou promoções. Enfim, bom para muita coisa
 
+  -------------------------
+  
+Algumas de suas funcionalidades:
+
+* Ele tenta enviar o e-mail ao se conectar com o servidor, caso não consiga ele volta um erro e o mostra no terminal
+* Por algum motivo, se tiver algum problema diretamente com a planilha e o nome ou o email da pessoa voltar NaN, criei um if para verificar esse valor e possivelmente o arrumar
+
 
 
