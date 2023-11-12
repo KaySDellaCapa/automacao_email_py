@@ -25,7 +25,10 @@ Pode servir para:
 Algumas de suas funcionalidades:
 
 * Ele tenta enviar o e-mail ao se conectar com o servidor, caso não consiga ele volta um erro e o mostra no terminal
+  
 * Por algum motivo, se tiver algum problema diretamente com a planilha e o nome ou o email da pessoa voltar NaN, criei um if para verificar esse valor e possivelmente o arrumar
+
+* Este código funciona muito bem como um .exe também, pois pode haver alterações na planilha e ainda assim não afetará o desempenho.
 
 
 
