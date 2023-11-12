@@ -20,48 +20,28 @@ DECORRENTE DE, OU EM CONEXÃO COM O SOFTWARE OU O USO OU OUTRAS NEGOCIAÇÕES NO
 SOFTWARE.
 """
 
-import sys
 import pandas as pd
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
-import openpyxl
+#import openpyxl
 
-clients = pd.read_excel('.\nome_da_planilha') #Aqui você está usando o caminho da planilha para a acessar no código
+clients = pd.read_excel('.\clientes2.xlsx') #Aqui você está usando o caminho da planilha para a acessar no código
 
 def manipular_planilha(caminho_planilha):
-    # Abre a planilha com openpyxl
-    workbook = openpyxl.load_workbook(caminho_planilha)
-    sheet = workbook.active
+   def manipular_planilha(caminho_planilha):
+    # Carrega o DataFrame do arquivo Excel
+    df = pd.read_excel('.\clientes2.xlsx')
 
     # Adiciona uma nova coluna chamada 'Status' e preenche com 'Manipulado'
-    sheet['D1'] = 'Status'
-    for row in sheet.iter_rows(min_row=2, max_col=2, values_only=True):
-        nome, email = row
-        sheet.append([nome, email, 'Manipulado'])
-
-    # Salva as alterações na planilha
-    workbook.save(caminho_planilha)
-
-def enviar_email(email_destino, assunto, corpo_email):
-    msg = MIMEMultipart()
-    msg['Subject'] = assunto
-    msg.attach(MIMEText(corpo_email, 'plain'))
-
-    # Configurar o servidor SMTP e credenciais
-    server = smtplib.SMTP('smtp.gmail.com', port=587)
-    server.starttls()
-    server.login('seu_email@gmail.com', 'sua_senha')
-
-    # Enviar e-mail
-    server.sendmail('seu_email@gmail.com', email_destino, msg.as_string())
-
-    # Finalizar conexão
-    server.quit()
+    
+    # Salva as alterações de volta no arquivo Excel
+    df.to_excel(caminho_planilha, index=False)
 
 def main():
-    caminho_planilha = '.\\clientes.xlsx'
+    caminho_planilha = '.\\clientes2.xlsx'
 
+    # Manipular a planilha
     manipular_planilha(caminho_planilha)
 
 #Sem o index ocorre erro, não o mude por nada.
@@ -71,24 +51,24 @@ for index, client in clients.iterrows(): #Linhas iteraveis. Percorre cada linha 
     msg = MIMEMultipart()
     msg['Subject'] = 'Email teste: )' #Titulo do email
     email_body = f"Olá, {client['nome']}, você recebeu um email. Se chegou a você, deu certo!" # Mensagem que quer enviar
-    msg['From'] = 'seu_email@gmail.com' #Quem vai enviar a mensagem
+    msg['From'] = 'seu_email' #Quem vai enviar a mensagem
     msg['To'] = client['email'] #Quem vai receber a mensagem. Para quem
     msg.attach(MIMEText(email_body, 'plain'))
 
 # Aqui acontece uma tentativa de se conectar ao servidor
 try:
-   server = smtplib.SMTP('smtp.gmail.com', port=587) # Servidor de envio da mensagem
+   server = smtplib.SMTP('smtp.gmail.com', port=587) #Servidor de envio da mensagem
    server.starttls() #Dando start no servidor
-
+   
+   #Comando para fazer login.
    #!!!MUITO IMPORTATE, É SUA CONTA DE EMAIL E SUA SENHA DE APP!!!
-   server.login('seu_email@gmail.com', 'sua_senha')
+   server.login('seu_email', 'sua_senha')
    
    server.sendmail(msg['From'], msg['To'], msg.as_string())
    print('O e-mail foi enviado com sucesso!')
         
 except Exception as e:
     print(f'Erro ao enviar o e-mail para {client["nome"]}: {str(e)}')
-
 
 finally:
     server.quit()
