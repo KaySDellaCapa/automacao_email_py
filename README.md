@@ -7,7 +7,7 @@ Minha primeira ideia era criar um muito mais simples, onde enviaria apenas um e-
 --------------------------
 
 Um pouco sobre o projeto:
-* Os e-mails precisam estar atualizados na planilha, e ela por sua vez, toda vez que for atualizada, precisa ser colocada novamente no código, para que funcione da maneira como deveria
+* Os e-mails precisam estar atualizados na planilha, para que funcione da maneira como deveria. E a planilha precisa estar na mesma dist que o .exe
 
 * A senha comum do gmail não vai funcionar por politica do google, então precisa criar uma senha especifica para isso. Passo a passo em: 
 https://www.youtube.com/watch?v=nFbZLX2U-5k
