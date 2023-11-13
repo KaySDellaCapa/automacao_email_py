@@ -32,8 +32,6 @@ def manipular_planilha(caminho_planilha):
    def manipular_planilha(caminho_planilha):
     # Carrega o DataFrame do arquivo Excel
     df = pd.read_excel('.\clientes2.xlsx')
-
-    # Adiciona uma nova coluna chamada 'Status' e preenche com 'Manipulado'
     
     # Salva as alterações de volta no arquivo Excel
     df.to_excel(caminho_planilha, index=False)
@@ -60,10 +58,8 @@ def enviar_email(client):
 def main():
     caminho_planilha = '.\\clientes2.xlsx'
 
-    # Manipular a planilha
     manipular_planilha(caminho_planilha)
 
-    # Iterar sobre os clientes
     for index, client in clients.iterrows():
         if pd.notna(client['email']):
             enviar_email(client)
