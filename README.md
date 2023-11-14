@@ -28,5 +28,14 @@ Algumas de suas funcionalidades:
 
 * Este código funciona muito bem como um .exe também, pois pode haver alterações na planilha e ainda assim não afetará o desempenho. Ele atualiza quando você inclui ou remove um email da lista, e manda para aqueles que apenas estão presentes lá.
 
+------------------------
+Sobre sua interface:
+
+* Ele funciona diretamente no terminal, digitando seu atalho e o executando ou clicando no .exe criado
+
+* Ele pedira que digite o e-mail que enviara as mensagens. Pedira a senha gerada pelo Senhas de App (por uma medida de segurança). A senha ficara invisivel ao ser digitada por causa da bibliteca getpass. Lembrando, tudo pelo terminal, mesmo após o .exe abrir.
+
+* Os nomes das pessoas que o email foi enviado aparecerá após a confirmação dos requisitos.
+
 
 
