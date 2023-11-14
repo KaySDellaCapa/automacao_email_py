@@ -24,30 +24,25 @@ import pandas as pd
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
-#import openpyxl
+from getpass import getpass 
 
-clients = pd.read_excel('.\clientes2.xlsx') #Aqui você está usando o caminho da planilha para a acessar no código
+clients = pd.read_excel('.\clientes2.xlsx')
 
 def manipular_planilha(caminho_planilha):
-   def manipular_planilha(caminho_planilha):
-    # Carrega o DataFrame do arquivo Excel
-    df = pd.read_excel('.\clientes2.xlsx')
-    
-    # Salva as alterações de volta no arquivo Excel
+    df = pd.read_excel(caminho_planilha)
     df.to_excel(caminho_planilha, index=False)
 
-def enviar_email(client):
+def enviar_email(client, subject, email_body, email, senha):
     msg = MIMEMultipart()
-    msg['Subject'] = 'Email teste :)'
-    email_body = f"Olá, {client['nome']}, você recebeu um email. Se chegou a você, deu certo!"
-    msg['From'] = 'seu_email'
+    msg['Subject'] = subject
+    msg['From'] = email
     msg['To'] = client['email']
     msg.attach(MIMEText(email_body, 'plain'))
 
     try:
         server = smtplib.SMTP('smtp.gmail.com', port=587)
         server.starttls()
-        server.login('seu_email', 'sua_senha')
+        server.login(email, senha)
         server.sendmail(msg['From'], msg['To'], msg.as_string())
         print(f'O e-mail foi enviado com sucesso para {client["nome"]}')
     except Exception as e:
@@ -60,12 +55,19 @@ def main():
 
     manipular_planilha(caminho_planilha)
 
+    email = input("Digite seu e-mail: ")
+    senha = getpass("Digite sua senha: ") 
+
+    subject = input("Digite o assunto do e-mail: ")
+    email_body = input("Digite o corpo do e-mail: ")
+
+    clients = pd.read_excel(caminho_planilha)
+
     for index, client in clients.iterrows():
         if pd.notna(client['email']):
-            enviar_email(client)
+            enviar_email(client, subject, email_body, email, senha)
 
 if __name__ == "__main__":
     main()
-
 
 
