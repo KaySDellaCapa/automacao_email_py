@@ -36,6 +36,10 @@ Sobre sua interface:
 * Ele pedira que digite o e-mail que enviara as mensagens. Pedira a senha gerada pelo Senhas de App (por uma medida de segurança). A senha ficara invisivel ao ser digitada por causa da bibliteca getpass. Lembrando, tudo pelo terminal, mesmo após o .exe abrir.
 
 * Os nomes das pessoas que o email foi enviado aparecerá após a confirmação dos requisitos.
+---------------------------
+# ATUALIZAÇÕES:
+
+Foi adicionado agora a biblioteca tkinter, para abrir uma janela e uma caixa de dialogo para ser inserido e-mail, a senha, o assunto e o corpo do texto, em uma interface mais amigavel para quem for usar. A senha deu um trabalho a mais para se ajustar, pois a janela fechava ao pedir a senha, por causa da biblioteca que a deixava invisivel, então, a removi e troquei por '*'.
 
 
 
