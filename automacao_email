@@ -19,12 +19,12 @@ DANOS OU OUTRA RESPONSABILIDADE, SEJA EM AÇÃO DE CONTRATO, DELITO OU DE OUTRA 
 DECORRENTE DE, OU EM CONEXÃO COM O SOFTWARE OU O USO OU OUTRAS NEGOCIAÇÕES NO
 SOFTWARE.
 """
-
 import pandas as pd
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
-from getpass import getpass 
+import tkinter as tk
+from tkinter import simpledialog, messagebox
 
 clients = pd.read_excel('.\clientes2.xlsx')
 
@@ -32,9 +32,9 @@ def manipular_planilha(caminho_planilha):
     df = pd.read_excel(caminho_planilha)
     df.to_excel(caminho_planilha, index=False)
 
-def enviar_email(client, subject, email_body, email, senha):
+def enviar_email(client, subject, email_body, email, senha, text_box):
     msg = MIMEMultipart()
-    msg['Subject'] = subject
+    msg['Subject'] = subject 
     msg['From'] = email
     msg['To'] = client['email']
     msg.attach(MIMEText(email_body, 'plain'))
@@ -45,27 +45,47 @@ def enviar_email(client, subject, email_body, email, senha):
         server.login(email, senha)
         server.sendmail(msg['From'], msg['To'], msg.as_string())
         print(f'O e-mail foi enviado com sucesso para {client["nome"]}')
+        text_box.insert(tk.END, f'O e-mail foi enviado com sucesso para {client["nome"]}\n')
     except Exception as e:
         print(f'Erro ao enviar o e-mail para {client["nome"]}: {str(e)}')
+        text_box.insert(tk.END, f'Erro ao enviar o e-mail para {client["nome"]}: {str(e)}\n')
     finally:
         server.quit()
+
+def obter_credenciais():
+    email = simpledialog.askstring("auto_email", "Digite seu e-mail:")
+    senha = simpledialog.askstring("auto_email", "Digite sua senha:", show='*')
+    return email, senha
+
+def obter_dados_email():
+    subject = simpledialog.askstring("auto_email", "Digite o assunto do e-mail:")
+    email_body = simpledialog.askstring("auto_email", "Digite o corpo do e-mail:")
+    return subject, email_body
 
 def main():
     caminho_planilha = '.\\clientes2.xlsx'
 
     manipular_planilha(caminho_planilha)
 
-    email = input("Digite seu e-mail: ")
-    senha = getpass("Digite sua senha: ") 
-
-    subject = input("Digite o assunto do e-mail: ")
-    email_body = input("Digite o corpo do e-mail: ")
+    email, senha = obter_credenciais()
+    subject, email_body = obter_dados_email()
 
     clients = pd.read_excel(caminho_planilha)
 
+    root = tk.Tk()
+    root.title("Envio de E-mails")
+
+    text_box = tk.Text(root, height=10, width=50)
+    text_box.pack()
+
     for index, client in clients.iterrows():
         if pd.notna(client['email']):
-            enviar_email(client, subject, email_body, email, senha)
+            enviar_email(client, subject, f'{email_body}\n\nEnviado por: {email}', email, senha, text_box)
+
+    if messagebox.askyesno("Conclusão", "Deseja fechar a aplicação?"):
+        root.destroy()
+
+    root.mainloop()
 
 if __name__ == "__main__":
     main()
