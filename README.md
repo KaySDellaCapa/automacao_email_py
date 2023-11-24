@@ -39,7 +39,13 @@ Sobre sua interface:
 ---------------------------
 # ATUALIZAÇÕES:
 
+1.0
 Foi adicionado agora a biblioteca tkinter, para abrir uma janela e uma caixa de dialogo para ser inserido e-mail, a senha, o assunto e o corpo do texto, em uma interface mais amigavel para quem for usar. A senha deu um trabalho a mais para se ajustar, pois a janela fechava ao pedir a senha, por causa da biblioteca que a deixava invisivel, então, a removi e troquei por '*'.
+
+1.1
+O tkinter foi substituito pelo PySimpleGUI para uma interface mais bonita, com duas caixas para escrever ao invés de uma de cada vez, mas com as mesmas funcionalidades.
+
+
 
 
 
