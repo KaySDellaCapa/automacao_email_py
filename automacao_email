@@ -20,11 +20,10 @@ DECORRENTE DE, OU EM CONEXÃO COM O SOFTWARE OU O USO OU OUTRAS NEGOCIAÇÕES NO
 SOFTWARE.
 """
 import pandas as pd
+import PySimpleGUI as sg
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
-import tkinter as tk
-from tkinter import simpledialog, messagebox
 
 clients = pd.read_excel('.\clientes2.xlsx')
 
@@ -45,22 +44,54 @@ def enviar_email(client, subject, email_body, email, senha, text_box):
         server.login(email, senha)
         server.sendmail(msg['From'], msg['To'], msg.as_string())
         print(f'O e-mail foi enviado com sucesso para {client["nome"]}')
-        text_box.insert(tk.END, f'O e-mail foi enviado com sucesso para {client["nome"]}\n')
+        text_box.print(f'O e-mail foi enviado com sucesso para {client["nome"]}\n')
     except Exception as e:
         print(f'Erro ao enviar o e-mail para {client["nome"]}: {str(e)}')
-        text_box.insert(tk.END, f'Erro ao enviar o e-mail para {client["nome"]}: {str(e)}\n')
+        text_box.print(f'Erro ao enviar o e-mail para {client["nome"]}: {str(e)}\n')
     finally:
         server.quit()
 
 def obter_credenciais():
-    email = simpledialog.askstring("auto_email", "Digite seu e-mail:")
-    senha = simpledialog.askstring("auto_email", "Digite sua senha:", show='*')
-    return email, senha
+    sg.theme('DarkBlue4')
+    layout = [
+        [sg.Text('Digite seu e-mail:')],
+        [sg.Input(key='-EMAIL-')],
+        [sg.Text('Digite sua senha:')],
+        [sg.Input(key='-SENHA-', password_char='*')],
+        [sg.Button('OK')]
+    ]
+
+    window = sg.Window('auto_email', layout, finalize=True)
+
+    while True:
+        event, values = window.read()
+
+        if event == sg.WIN_CLOSED or event == 'OK':
+            break
+
+    window.close()
+    return values.get('-EMAIL-'), values.get('-SENHA-')
 
 def obter_dados_email():
-    subject = simpledialog.askstring("auto_email", "Digite o assunto do e-mail:")
-    email_body = simpledialog.askstring("auto_email", "Digite o corpo do e-mail:")
-    return subject, email_body
+    sg.theme('DarkBlue4')
+    layout = [
+        [sg.Text('Digite o assunto do e-mail:')],
+        [sg.Input(key='-ASSUNTO-')],
+        [sg.Text('Digite o corpo do e-mail:')],
+        [sg.Input(key='-CORPO-')],
+        [sg.Button('OK')]
+    ]
+
+    window = sg.Window('auto_email', layout, finalize=True)
+
+    while True:
+        event, values = window.read()
+
+        if event == sg.WIN_CLOSED or event == 'OK':
+            break
+
+    window.close()
+    return values.get('-ASSUNTO-'), values.get('-CORPO-')
 
 def main():
     caminho_planilha = '.\\clientes2.xlsx'
@@ -72,20 +103,21 @@ def main():
 
     clients = pd.read_excel(caminho_planilha)
 
-    root = tk.Tk()
-    root.title("Envio de E-mails")
+    layout = [
+        [sg.Multiline(size=(50, 10), key='-OUTPUT-', disabled=True)],
+        [sg.Button('Fechar')]
+    ]
 
-    text_box = tk.Text(root, height=10, width=50)
-    text_box.pack()
+    window = sg.Window("Envio de E-mails", layout, finalize=True)
 
     for index, client in clients.iterrows():
         if pd.notna(client['email']):
-            enviar_email(client, subject, f'{email_body}\n\nEnviado por: {email}', email, senha, text_box)
+            enviar_email(client, subject, f'{email_body}\n\nEnviado por: {email}', email, senha, window['-OUTPUT-'])
 
-    if messagebox.askyesno("Conclusão", "Deseja fechar a aplicação?"):
-        root.destroy()
+    event, values = window.read()
 
-    root.mainloop()
+    if event == 'Fechar':
+        window.close()
 
 if __name__ == "__main__":
     main()
